@@ -19,10 +19,30 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
-    // testImplementation(libs.junit.jupiter)
-    // testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    // testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.69.1")
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
+
+// tasks.named<Task>("check") {
+//     // Run the functional tests as part of `check`
+//     dependsOn(functionalTest)
+// }
+
+tasks.named<Test>("test") {
+    // Use JUnit Jupiter for unit tests.
+    useJUnitPlatform()
+
+    maxHeapSize = "1G"
+
+    testLogging {
+        events("passed")
+        events("failed")
+    }
+}
+
