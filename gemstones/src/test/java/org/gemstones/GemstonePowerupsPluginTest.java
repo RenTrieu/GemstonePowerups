@@ -1,10 +1,12 @@
 package org.gemstones;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.gemstones.GemstonePowerupsPlugin;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
@@ -31,8 +33,14 @@ public class GemstonePowerupsPluginTest {
 	@Test
 	public void playerGreetOnJoin() {
 		PlayerMock player = server.addPlayer();
+		player.reconnect();
 		String greeting = player.nextMessage();
-		player.assertSaid(Component.text("Hello, " + player.name() + "!"));
-
+		Assertions.assertEquals(
+			greeting,
+			"Hello, "
+			+ LegacyComponentSerializer.legacyAmpersand().serialize(
+				player.name())
+			+ "!"
+		);
 	}
 }
