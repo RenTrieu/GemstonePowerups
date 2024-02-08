@@ -6,4 +6,4 @@
  */
 
 rootProject.name = "GemstonePowerups"
-include("plugin")
+include("gemstones")
