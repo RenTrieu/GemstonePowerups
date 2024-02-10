@@ -18,11 +18,16 @@ repositories {
 
 dependencies {
     // Use JUnit Jupiter for testing.
-    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
-    // testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.69.1")
+
+    // compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
+    // Pinning to slightly older version due to Lifecycle Event System updates
+    // on Paper not yet being handled in MockBukkit
+    implementation("io.papermc.paper:paper-api:1.20.4-R0.1-20240205.114523-90")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.70.0")
     testImplementation(libs.junit.jupiter)
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    // testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 java {
@@ -33,7 +38,7 @@ java {
 //     // Run the functional tests as part of `check`
 //     dependsOn(functionalTest)
 // }
-
+//
 tasks.named<Test>("test") {
     // Use JUnit Jupiter for unit tests.
     useJUnitPlatform()
@@ -42,7 +47,6 @@ tasks.named<Test>("test") {
 
     testLogging {
         events("passed")
-        events("failed")
     }
 }
 
