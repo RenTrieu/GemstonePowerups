@@ -36,9 +36,9 @@ public class Gemstone extends BukkitRunnable {
      */
     private static HashMap<Integer, ArrayList<Vector>> 
         sphereVectors = new HashMap<>();
-    /* Stores the mapping from radii to potion effects and material */
-    private HashMap<Integer, HashMap<PotionEffect, Material[]>>
-        radiusMap = new HashMap<>();
+    /* Stores the mapping from potion effects to radii and material */
+    private HashMap<PotionEffect, HashMap<Integer, Material[]>>
+        effectMap = new HashMap<>();
     private GemstoneType gType = null;
     private Server server;
 
@@ -64,17 +64,17 @@ public class Gemstone extends BukkitRunnable {
         PotionEffect pEffect,
         Material[] matList
     ) {
-        if (!radiusMap.containsKey(radius)) {
-            radiusMap.put(
-                radius, new HashMap<PotionEffect, Material[]>()
+        if (!this.effectMap.containsKey(pEffect)) {
+            this.effectMap.put(
+                pEffect, new HashMap<Integer, Material[]>()
             );
         }
-        HashMap<PotionEffect, Material[]> effectMap = radiusMap.get(radius);
-        if (!effectMap.containsKey(pEffect)) {
-            effectMap.put(pEffect, matList);
+        HashMap<Integer, Material[]> radiusMap = this.effectMap.get(pEffect);
+        if (!radiusMap.containsKey(radius)) {
+            radiusMap.put(radius, matList);
         }
         else {
-            Material[] prevMatList = effectMap.get(pEffect);
+            Material[] prevMatList = radiusMap.get(radius);
             HashSet<Material> matSet = new HashSet<>();
             for (Material mat : prevMatList) {
                 matSet.add(mat);
@@ -82,8 +82,8 @@ public class Gemstone extends BukkitRunnable {
             for (Material mat : matList) {
                 matSet.add(mat);
             }
-            effectMap.remove(pEffect);
-            effectMap.put(pEffect, (Material[]) matSet.toArray());
+            radiusMap.remove(radius);
+            radiusMap.put(radius, (Material[]) matSet.toArray());
         }
     }
 
@@ -94,18 +94,20 @@ public class Gemstone extends BukkitRunnable {
     public void applyEffects(
         Player player
     ) {
-        for (Integer radius : radiusMap.keySet()) {
-            HashMap<PotionEffect, Material[]> effectMap = radiusMap.get(radius);
-            for (PotionEffect pEffect : effectMap.keySet()) {
-                Material[] matList = effectMap.get(pEffect);
+        for (PotionEffect pEffect : effectMap.keySet()) {
+            HashMap<Integer, Material[]> radiusMap = effectMap.get(pEffect);
+            boolean detectedBlock = false;
+            for (Integer radius : radiusMap.keySet()) {
+                Material[] matList = radiusMap.get(radius);
                 ArrayList<Location> detectList = scanBlockProximity(
                     player,
                     matList,
                     radius
                 );
-                if (detectList.size() > 0) {
-                    pEffect.apply(player);
-                }
+                detectedBlock = detectList.size() > 0;
+            }
+            if (detectedBlock) {
+                pEffect.apply(player);
             }
         }
     }
