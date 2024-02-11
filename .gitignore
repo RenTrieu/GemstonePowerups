@@ -4,5 +4,6 @@
 # Ignore Gradle build output directory
 build
 
-# Ignore settings directory
+# Ignoring dot directories
 gemstones/.settings
+gemstones/.classpath

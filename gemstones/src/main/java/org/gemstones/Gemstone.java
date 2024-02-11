@@ -3,8 +3,10 @@ package org.gemstones;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import java.lang.Math;
+import java.util.AbstractMap.SimpleEntry;
 
 import net.kyori.adventure.text.Component;
 
@@ -19,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 import org.bukkit.Material;
+import org.bukkit.potion.PotionEffect;
 
 import org.gemstones.GemstoneType;
 
@@ -32,29 +35,78 @@ public class Gemstone {
      */
     private static HashMap<Integer, ArrayList<Vector>> 
         sphereVectors = new HashMap<>();
+    /* Stores the mapping from radii to potion effects and material */
+    private HashMap<Integer, HashMap<PotionEffect, Material[]>>
+        radiusMap = new HashMap<>();
+    private GemstoneType gType = null;
 
     public Gemstone() {
         this.scheduler = Bukkit.getScheduler();
     }
 
     /*
-     * Returns true if the distance between origin and loc is less than
-     * the specified distance
+     * Adds a Gemstone effect that will apply in the given radius when
+     * the player is in proximity to the given materials
+     *
+     * If the potion effect for the given radius already has an array of
+     * materials, then the original and new array will be combined
      */
-    public static boolean withinDistance(
-        Location origin,
-        Location loc,
-        int distance
+    public void addGemstoneEffect(
+        int radius,
+        PotionEffect pEffect,
+        Material[] matList
     ) {
-        
-        return false;
+        if (!radiusMap.containsKey(radius)) {
+            radiusMap.put(
+                radius, new HashMap<PotionEffect, Material[]>()
+            );
+        }
+        HashMap<PotionEffect, Material[]> effectMap = radiusMap.get(radius);
+        if (!effectMap.containsKey(pEffect)) {
+            effectMap.put(pEffect, matList);
+        }
+        else {
+            Material[] prevMatList = effectMap.get(pEffect);
+            HashSet<Material> matSet = new HashSet<>();
+            for (Material mat : prevMatList) {
+                matSet.add(mat);
+            }
+            for (Material mat : matList) {
+                matSet.add(mat);
+            }
+            effectMap.remove(pEffect);
+            effectMap.put(pEffect, (Material[]) matSet.toArray());
+        }
+    }
+
+    /*
+     * Applies the applicable potion effects to the player based off of their
+     * Location and conditions
+     */
+    public void applyEffects(
+        Player player
+    ) {
+        for (Integer radius : radiusMap.keySet()) {
+            HashMap<PotionEffect, Material[]> effectMap = radiusMap.get(radius);
+            for (PotionEffect pEffect : effectMap.keySet()) {
+                Material[] matList = effectMap.get(pEffect);
+                ArrayList<Location> detectList = scanBlockProximity(
+                    player,
+                    matList,
+                    radius
+                );
+                if (detectList.size() > 0) {
+                    pEffect.apply(player);
+                }
+            }
+        }
     }
 
     /* 
      * Scans for the location of certain blocks in a given proximity to a
      * player 
      */
-    ArrayList<Location> scanBlockProximity(
+    public ArrayList<Location> scanBlockProximity(
         Player player,
         Material[] materials,
         int radius

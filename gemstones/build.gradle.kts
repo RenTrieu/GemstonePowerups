@@ -30,9 +30,9 @@ dependencies {
     // testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
-}
+// java {
+//     toolchain.languageVersion.set(JavaLanguageVersion.of(19))
+// }
 
 // tasks.named<Task>("check") {
 //     // Run the functional tests as part of `check`

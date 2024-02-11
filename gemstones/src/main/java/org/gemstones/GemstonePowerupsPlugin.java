@@ -38,18 +38,6 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     ) {
         if (command.getName().equalsIgnoreCase("gemstones")) {
             sender.sendMessage(ChatColor.GREEN + "Command received!");
-            Gemstone gTest = new Gemstone();
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                ArrayList<Location> locList = gTest.scanBlockProximity(
-                    player,
-                    new Material[]{Material.DIAMOND_BLOCK},
-                    5
-                );
-                for (Location loc : locList) {
-                    sender.sendMessage("loc: " + loc.toString());
-                }
-            }
         }
         return true;
     }
