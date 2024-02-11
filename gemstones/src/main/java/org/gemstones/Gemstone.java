@@ -22,13 +22,14 @@ import org.bukkit.Location;
 import org.bukkit.util.Vector;
 import org.bukkit.Material;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.Server;
 
 import org.gemstones.GemstoneType;
 
 
-public class Gemstone {
+public class Gemstone extends BukkitRunnable {
 
-    private BukkitScheduler scheduler;
     /* 
      * Stores vectors to blocks within a sphere of a given radius,
      * relative to the origin 
@@ -39,9 +40,16 @@ public class Gemstone {
     private HashMap<Integer, HashMap<PotionEffect, Material[]>>
         radiusMap = new HashMap<>();
     private GemstoneType gType = null;
+    private Server server;
 
-    public Gemstone() {
-        this.scheduler = Bukkit.getScheduler();
+    public Gemstone(Server server) {
+        this.server = server;
+    }
+
+    public void run() {
+        for (Player player : this.server.getOnlinePlayers()) {
+            applyEffects(player);
+        }
     }
 
     /*
