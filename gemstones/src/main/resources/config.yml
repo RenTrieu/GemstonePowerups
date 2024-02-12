@@ -1,0 +1,32 @@
+gemstones:
+  gold:
+    potion_effects:
+      FIRE_RESISTANCE:
+        - radius: 30
+          level: 0
+          blocks:
+            - GOLD_BLOCK
+            - RAW_GOLD_BLOCK
+        - radius: 5
+          level: 0
+          blocks:
+            - GILDED_BLACKSTONE
+            - GOLD_ORE
+      LUCK:
+        - radius: 15
+          level: 0
+          blocks:
+            - GOLD_BLOCK
+            - RAW_GOLD_BLOCK
+        - radius: 5
+          level: 0
+          blocks:
+            - GILDED_BLACKSTONE
+            - GOLD_ORE
+  diamond:
+    potion_effects:
+      DAMAGE_RESISTANCE:
+        - radius: 30
+          level: 0
+          blocks:
+            - DIAMOND_BLOCK

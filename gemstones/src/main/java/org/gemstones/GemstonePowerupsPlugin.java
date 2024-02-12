@@ -2,7 +2,10 @@ package org.gemstones;
 
 import net.md_5.bungee.api.ChatColor;
 
+import java.util.Set;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -13,31 +16,93 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.Material;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.Registry.SimpleRegistry;
+import org.bukkit.Effect;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 
 public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
 
     private BukkitScheduler scheduler;
+    private FileConfiguration config;
+    private ArrayList<Gemstone> gemstoneList;
 
     @Override
     public void onEnable() {
         Bukkit.getPluginManager().registerEvents(this, this);
-        Gemstone gTest = new Gemstone(Bukkit.getServer());
-        PotionEffect pEffect = new PotionEffect(
-            PotionEffectType.GLOWING,
-            200,
-            1
+
+        /* Loading configuration file */
+        saveDefaultConfig();
+        this.config = getConfig();
+
+        /* Parsing through configuration and storing results in gemstoneList */
+        this.gemstoneList = new ArrayList<>();
+        ConfigurationSection gConfig = this.config.getConfigurationSection(
+            "gemstones"
         );
-        gTest.addGemstoneEffect(
-            5, pEffect, new Material[]{Material.DIAMOND_BLOCK}
-        );
-        gTest.runTaskTimer(this, (long) 40.0, (long) 40.0);
+        Set<String> gList = gConfig.getKeys(false);
+        /* Iterating through each gemstone in the config.yml */
+        for (String gemstoneString : gList) {
+            ConfigurationSection pSection = gConfig.getConfigurationSection(
+                gemstoneString + ".potion_effects"
+            );
+            /* Iterating through each potion effect */
+            for (String pEffectString : pSection.getKeys(false)) {
+                List<Map<String, Object>> paramList = 
+                    (List<Map<String, Object>>) pSection.getValues(
+                        true
+                    ).get(pEffectString);
+                for (Map<String, Object> param : paramList) {
+                    Gemstone gemstone = new Gemstone(Bukkit.getServer());
+                    /* Extracting parameters */
+                    int radius = (int) param.get("radius");
+                    int level = (int) param.get("level");
+                    List<String> matList = (List<String>) param.get("blocks");
+
+                    // NamespacedKey pNamespacedKey = new NamespacedKey(NamespacedKey.BUKKIT, pEffectString);
+                    // System.out.println("pNamespacedKey: " + pNamespacedKey);
+                    // 
+                    // System.out.println(Registry.POTION_EFFECT_TYPE.get(
+                    //     NamespacedKey.fromString(pEffectString)
+                    // ));
+                    // PotionEffect pEffect = new PotionEffect(
+                    //     Registry.POTION_EFFECT_TYPE.get(
+                    //         NamespacedKey.fromString(pEffectString)
+                    //     ), 200, level
+                    // );
+                    // TODO: Change potion effect parsing implementation to use Registry.get()
+                    PotionEffect pEffect = new PotionEffect(
+                        PotionEffectType.getByName(pEffectString), 200, level
+                    );
+                    Material[] matArray = new Material[matList.size()];
+                    for (int i = 0; i < matList.size(); i++) {
+                        matArray[i] = Material.valueOf(matList.get(i));
+                        System.out.println("matArray[" + i + "]: " + matArray[i]);
+                    }
+                    gemstone.addGemstoneEffect(
+                        radius,
+                        pEffect,
+                        matArray
+                    );
+                    gemstone.runTaskTimer(this, (long) 40.0, (long) 40.0);
+                    gemstoneList.add(gemstone);
+                }
+            }
+        }
+        
+        // Gemstone gTest = new Gemstone(Bukkit.getServer());
+        // PotionEffect pEffect = new PotionEffect(
+        //     PotionEffectType.GLOWING, 200, 1
+        // );
+        // gTest.addGemstoneEffect(
+        //     5, pEffect, new Material[]{Material.DIAMOND_BLOCK}
+        // );
+        // gTest.runTaskTimer(this, (long) 40.0, (long) 40.0);
     }
 
     @EventHandler

@@ -1,0 +1,12 @@
+name: GemstonePowerups
+version: 1.0.0
+main: org.gemstones.GemstonePowerupsPlugin
+description: A Minecraft plugin for giving players buffs/effects when in proximity to specific gemstone blocks.
+author: RenTrieu
+api-version: '1.20'
+commands:
+  gemstones:
+    description: "This command toggles on or off the GemstonesPowerups plugin for a given user"
+    usage: "/gemstones <on/off>"
+    permission: gemstones.toggle
+    permission-message: "You do not have permission to use this command"

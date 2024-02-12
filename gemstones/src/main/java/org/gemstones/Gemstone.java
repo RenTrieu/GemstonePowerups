@@ -5,18 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import java.lang.Math;
-import java.util.AbstractMap.SimpleEntry;
-
-import net.kyori.adventure.text.Component;
-
-import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
@@ -24,8 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.Server;
-
-import org.gemstones.GemstoneType;
 
 
 public class Gemstone extends BukkitRunnable {
@@ -40,7 +26,7 @@ public class Gemstone extends BukkitRunnable {
     private HashMap<PotionEffect, HashMap<Integer, Material[]>>
         effectMap = new HashMap<>();
     private GemstoneType gType = null;
-    private Server server;
+    public Server server;
 
     public Gemstone(Server server) {
         this.server = server;
@@ -48,7 +34,9 @@ public class Gemstone extends BukkitRunnable {
 
     public void run() {
         for (Player player : this.server.getOnlinePlayers()) {
-            applyEffects(player);
+            if (gType == null) {
+                applyEffects(player);
+            }
         }
     }
 
@@ -99,12 +87,9 @@ public class Gemstone extends BukkitRunnable {
             boolean detectedBlock = false;
             for (Integer radius : radiusMap.keySet()) {
                 Material[] matList = radiusMap.get(radius);
-                ArrayList<Location> detectList = scanBlockProximity(
-                    player,
-                    matList,
-                    radius
-                );
-                detectedBlock = detectList.size() > 0;
+                detectedBlock = scanBlockProximity(
+                    player, matList, radius
+                ).size() > 0;
             }
             if (detectedBlock) {
                 pEffect.apply(player);

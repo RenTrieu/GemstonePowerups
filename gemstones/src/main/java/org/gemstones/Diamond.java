@@ -13,11 +13,9 @@ import org.bukkit.Server;
 // public class Diamond extends Gemstone {
 //
 //     private GemstoneType gType = GemstoneType.DIAMOND;
-//     private Server server;
 //
 //     public Diamond(Server server) {
 //         super(server);
-//         this.server = server;
 //     }
 //
 //     public void run() {
