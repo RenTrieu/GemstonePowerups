@@ -25,7 +25,7 @@ gemstones:
             - GOLD_ORE
   diamond:
     potion_effects:
-      DAMAGE_RESISTANCE:
+      RESISTANCE:
         - radius: 30
           level: 0
           blocks:

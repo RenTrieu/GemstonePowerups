@@ -35,6 +35,7 @@ public class Gemstone extends BukkitRunnable {
     public void run() {
         for (Player player : this.server.getOnlinePlayers()) {
             if (gType == null) {
+                // TODO: Add check for if player is in the right gemstone category
                 applyEffects(player);
             }
         }
@@ -92,6 +93,8 @@ public class Gemstone extends BukkitRunnable {
                 ).size() > 0;
             }
             if (detectedBlock) {
+                // TODO: Add check to see if player already has potion effect of same or higher level applied
+                // If so, don't apply again
                 pEffect.apply(player);
             }
         }

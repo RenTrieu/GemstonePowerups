@@ -64,25 +64,18 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                     int level = (int) param.get("level");
                     List<String> matList = (List<String>) param.get("blocks");
 
-                    // NamespacedKey pNamespacedKey = new NamespacedKey(NamespacedKey.BUKKIT, pEffectString);
-                    // System.out.println("pNamespacedKey: " + pNamespacedKey);
-                    // 
-                    // System.out.println(Registry.POTION_EFFECT_TYPE.get(
-                    //     NamespacedKey.fromString(pEffectString)
-                    // ));
-                    // PotionEffect pEffect = new PotionEffect(
-                    //     Registry.POTION_EFFECT_TYPE.get(
-                    //         NamespacedKey.fromString(pEffectString)
-                    //     ), 200, level
-                    // );
-                    // TODO: Change potion effect parsing implementation to use Registry.get()
-                    PotionEffect pEffect = new PotionEffect(
-                        PotionEffectType.getByName(pEffectString), 200, level
+                    NamespacedKey pNamespacedKey = new NamespacedKey(
+                        NamespacedKey.MINECRAFT, pEffectString.toLowerCase()
                     );
+                    Registry<PotionEffectType> reg = Bukkit.getRegistry(PotionEffectType.class);
+                    PotionEffectType pType1 = reg.get(pNamespacedKey);
+                    PotionEffect pEffect = new PotionEffect(
+                        reg.get(pNamespacedKey), 200, level
+                    );
+
                     Material[] matArray = new Material[matList.size()];
                     for (int i = 0; i < matList.size(); i++) {
                         matArray[i] = Material.valueOf(matList.get(i));
-                        System.out.println("matArray[" + i + "]: " + matArray[i]);
                     }
                     gemstone.addGemstoneEffect(
                         radius,
@@ -94,15 +87,6 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                 }
             }
         }
-        
-        // Gemstone gTest = new Gemstone(Bukkit.getServer());
-        // PotionEffect pEffect = new PotionEffect(
-        //     PotionEffectType.GLOWING, 200, 1
-        // );
-        // gTest.addGemstoneEffect(
-        //     5, pEffect, new Material[]{Material.DIAMOND_BLOCK}
-        // );
-        // gTest.runTaskTimer(this, (long) 40.0, (long) 40.0);
     }
 
     @EventHandler
