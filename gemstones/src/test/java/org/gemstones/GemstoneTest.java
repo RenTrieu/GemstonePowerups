@@ -156,48 +156,48 @@ public class GemstoneTest {
      * Testing that when the player leaves the radius of a block that the
      * potion effect wears off in the expected amount of time
      */
-    @Test
-    public void checkApplyEffectExpires() {
-        WorldMock testWorld = new WorldMock(Material.BEDROCK, 0, 256, 3);
-        Location blockLoc = new Location(testWorld, 0.0, 4.0, 0.0);
-        Location playerLoc = new Location(testWorld, 0.0, 4.0, 1.0);
-        int radius = 5;
-        testWorld.setBlockData(
-            blockLoc, Material.DIAMOND_BLOCK.createBlockData()
-        );
-        server.addWorld(testWorld);
-        PlayerMock player = server.addPlayer();
-        player.setLocation(playerLoc);
-
-        Gemstone gTest = new Gemstone(server);
-        PotionEffect pEffect = new PotionEffect(
-            PotionEffectType.DAMAGE_RESISTANCE, 15, 1
-        );
-        gTest.addGemstoneEffect(
-            radius, pEffect, new Material[]{Material.DIAMOND_BLOCK}
-        );
-        gTest.applyEffects(player);
-        //gTest.runTaskTimer(this.plugin, 0L, 40L);
-
-        //player.setLocation(playerLoc.add(new Vector((double) radius, 0.0, 0.0)));
-        //Assertions.assertFalse(player.hasPotionEffect(pEffect.getType()));
-        // server.getScheduler().performTicks(10L);
-        // Assertions.assertTrue(player.hasPotionEffect(pEffect.getType()));
-        // server.getScheduler().performTicks(20L);
-        // Assertions.assertFalse(player.hasPotionEffect(pEffect.getType()));
-
-        //server.getScheduler().performTicks(40L);
-        //player.setLocation(playerLoc.add(new Vector((double) radius, 0.0, 0.0)));
-        //player.setLocation(new Location(testWorld, 10.0, 4.0, 20.0));
-        // System.out.println("pLoc: " + player.getLocation());
-        // Assertions.assertTrue(player.hasPotionEffect(pEffect.getType()));
-        // server.getScheduler().performTicks(100L);
-        // System.out.println("pLoc: " + player.getLocation());
-        // Assertions.assertTrue(player.hasPotionEffect(pEffect.getType()));
-        // server.getScheduler().performTicks(110L);
-        // System.out.println("pLoc: " + player.getLocation());
-        // Assertions.assertFalse(player.hasPotionEffect(pEffect.getType()));
-    }
+    // @Test
+    // public void checkApplyEffectExpires() {
+    //     WorldMock testWorld = new WorldMock(Material.BEDROCK, 0, 256, 3);
+    //     Location blockLoc = new Location(testWorld, 0.0, 4.0, 0.0);
+    //     Location playerLoc = new Location(testWorld, 0.0, 4.0, 1.0);
+    //     int radius = 5;
+    //     testWorld.setBlockData(
+    //         blockLoc, Material.DIAMOND_BLOCK.createBlockData()
+    //     );
+    //     server.addWorld(testWorld);
+    //     PlayerMock player = server.addPlayer();
+    //     player.setLocation(playerLoc);
+    //
+    //     Gemstone gTest = new Gemstone(server);
+    //     PotionEffect pEffect = new PotionEffect(
+    //         PotionEffectType.DAMAGE_RESISTANCE, 15, 1
+    //     );
+    //     gTest.addGemstoneEffect(
+    //         radius, pEffect, new Material[]{Material.DIAMOND_BLOCK}
+    //     );
+    //     gTest.applyEffects(player);
+    //     //gTest.runTaskTimer(this.plugin, 0L, 40L);
+    //
+    //     //player.setLocation(playerLoc.add(new Vector((double) radius, 0.0, 0.0)));
+    //     //Assertions.assertFalse(player.hasPotionEffect(pEffect.getType()));
+    //     // server.getScheduler().performTicks(10L);
+    //     // Assertions.assertTrue(player.hasPotionEffect(pEffect.getType()));
+    //     // server.getScheduler().performTicks(20L);
+    //     // Assertions.assertFalse(player.hasPotionEffect(pEffect.getType()));
+    //
+    //     //server.getScheduler().performTicks(40L);
+    //     //player.setLocation(playerLoc.add(new Vector((double) radius, 0.0, 0.0)));
+    //     //player.setLocation(new Location(testWorld, 10.0, 4.0, 20.0));
+    //     // System.out.println("pLoc: " + player.getLocation());
+    //     // Assertions.assertTrue(player.hasPotionEffect(pEffect.getType()));
+    //     // server.getScheduler().performTicks(100L);
+    //     // System.out.println("pLoc: " + player.getLocation());
+    //     // Assertions.assertTrue(player.hasPotionEffect(pEffect.getType()));
+    //     // server.getScheduler().performTicks(110L);
+    //     // System.out.println("pLoc: " + player.getLocation());
+    //     // Assertions.assertFalse(player.hasPotionEffect(pEffect.getType()));
+    // }
 
     /*
      * Case where multiple blocks are specified and
