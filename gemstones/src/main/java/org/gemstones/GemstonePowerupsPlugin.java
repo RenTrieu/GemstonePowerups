@@ -18,8 +18,6 @@ import org.bukkit.command.Command;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
-import org.bukkit.Registry.SimpleRegistry;
-import org.bukkit.Effect;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -40,7 +38,7 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
         saveDefaultConfig();
         this.config = getConfig();
 
-        /* Parsing through configuration and storing results in gemstoneList */
+        /* Parsing through main configuration and storing results in gemstoneList */
         this.gemstoneList = new ArrayList<>();
         ConfigurationSection gConfig = this.config.getConfigurationSection(
             "gemstones"
@@ -82,7 +80,7 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                         pEffect,
                         matArray
                     );
-                    gemstone.runTaskTimer(this, (long) 40.0, (long) 40.0);
+                    gemstone.runTaskTimer(this, 40L, 40L);
                     gemstoneList.add(gemstone);
                 }
             }
