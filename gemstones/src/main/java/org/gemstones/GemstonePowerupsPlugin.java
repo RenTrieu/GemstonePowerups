@@ -3,9 +3,11 @@ package org.gemstones;
 import net.md_5.bungee.api.ChatColor;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -29,6 +31,10 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     private BukkitScheduler scheduler;
     private FileConfiguration config;
     private ArrayList<Gemstone> gemstoneList;
+
+    /* Maps Player UUID to Gemstone team */
+    private HashMap<UUID, String> gemTeamMap;
+    private final String gemTeamFilePath = getDataFolder() + "/gemTeam.gzip";
 
     @Override
     public void onEnable() {
@@ -85,6 +91,9 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                 }
             }
         }
+
+        /* Loading in saved gemTeamMap data if exists */
+        gemTeamMap = new HashMap<UUID, String>();
     }
 
     @EventHandler
@@ -92,6 +101,9 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
         event.getPlayer().sendMessage(
             Component.text("Hello, " + event.getPlayer().getName() + "!")
         );
+        gemTeamMap.put(event.getPlayer().getUniqueId(), "GOLD");
+        GemTeamData gData = new GemTeamData(gemTeamMap);
+        gData.saveData(gemTeamFilePath, gemTeamMap);
     }
 
     public boolean onCommand(

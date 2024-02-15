@@ -16,6 +16,8 @@ import org.bukkit.Server;
 
 public class Gemstone extends BukkitRunnable {
 
+    /* Stores which Gemstone team each player is on */
+    private static HashMap<String, Player> gTeamMap;
     /* 
      * Stores vectors to blocks within a sphere of a given radius,
      * relative to the origin 
