@@ -35,6 +35,7 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     /* Maps Player UUID to Gemstone team */
     private HashMap<UUID, String> gemTeamMap;
     private final String gemTeamFilePath = getDataFolder() + "/gemTeam.gzip";
+    private GemTeamData gData;
 
     @Override
     public void onEnable() {
@@ -72,7 +73,6 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                         NamespacedKey.MINECRAFT, pEffectString.toLowerCase()
                     );
                     Registry<PotionEffectType> reg = Bukkit.getRegistry(PotionEffectType.class);
-                    PotionEffectType pType1 = reg.get(pNamespacedKey);
                     PotionEffect pEffect = new PotionEffect(
                         reg.get(pNamespacedKey), 200, level
                     );
@@ -93,7 +93,17 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
         }
 
         /* Loading in saved gemTeamMap data if exists */
-        gemTeamMap = new HashMap<UUID, String>();
+        GemTeamData gData = GemTeamData.loadData(
+            gemTeamFilePath, Bukkit.getLogger()
+        );
+        if (gData == null) {
+            gData = new GemTeamData();
+            gData.saveData(
+                gemTeamFilePath, gData.gemTeamMap, getLogger() 
+            );
+        }
+        this.gData = gData;
+        this.gemTeamMap = gData.gemTeamMap;
     }
 
     @EventHandler
@@ -101,9 +111,10 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
         event.getPlayer().sendMessage(
             Component.text("Hello, " + event.getPlayer().getName() + "!")
         );
-        gemTeamMap.put(event.getPlayer().getUniqueId(), "GOLD");
-        GemTeamData gData = new GemTeamData(gemTeamMap);
-        gData.saveData(gemTeamFilePath, gemTeamMap);
+        this.gemTeamMap.put(event.getPlayer().getUniqueId(), "GOLD");
+        this.gData.saveData(
+            gemTeamFilePath, gemTeamMap, getLogger()
+        );
     }
 
     public boolean onCommand(

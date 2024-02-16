@@ -1,6 +1,9 @@
 package org.gemstones;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,6 +19,10 @@ public class GemTeamData implements Serializable {
 
     public HashMap<UUID, String> gemTeamMap;
 
+    public GemTeamData() {
+        this.gemTeamMap = new HashMap<UUID, String>();
+    }
+
     public GemTeamData (HashMap<UUID, String> gemTeamMap) {
         this.gemTeamMap = gemTeamMap;
     }
@@ -25,9 +32,10 @@ public class GemTeamData implements Serializable {
      */
     public boolean saveData(
         String filePath,
-        HashMap<UUID, String> gemTeamMap
+        HashMap<UUID, String> gemTeamMap,
+        Logger logger
     ) {
-        this.gemTeamMap = gemTeamMap;
+        this.gemTeamMap.putAll(gemTeamMap);
         try {
             BukkitObjectOutputStream out = new BukkitObjectOutputStream(
                 new GZIPOutputStream(new FileOutputStream(filePath))
@@ -36,7 +44,7 @@ public class GemTeamData implements Serializable {
             out.close();
             return true;
         } catch (IOException e) {
-            System.err.println(
+            logger.log(Level.SEVERE,
                 "Error occurred when attempting to save GemTeamData: " + e
             );
             return false;
@@ -46,16 +54,21 @@ public class GemTeamData implements Serializable {
     /*
      * Loads GemTeamData
      */
-    public GemTeamData loadData(String filePath) {
+    public static GemTeamData loadData(
+        String filePath,
+        Logger logger
+    ) {
         try {
             BukkitObjectInputStream in = new BukkitObjectInputStream(
-                    new GZIPInputStream(new FileInputStream(filePath))
-                );
+                new GZIPInputStream(new FileInputStream(filePath))
+            );
             GemTeamData gTeamData = (GemTeamData) in.readObject();
             in.close();
             return gTeamData;
+        } catch (FileNotFoundException e) {
+            return null;
         } catch (ClassNotFoundException | IOException e) {
-            System.err.println(
+            logger.log(Level.SEVERE,
                 "Error occurred when attempting to save GemTeamData: " + e
             );
             return null;
