@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,7 +20,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.StringUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -31,7 +29,6 @@ import org.apache.commons.lang3.EnumUtils;
 
 public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
 
-    private BukkitScheduler scheduler;
     private FileConfiguration config;
     private ArrayList<Gemstone> gemstoneList;
 
@@ -43,19 +40,16 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     private static HashMap<UUID, Boolean> gemToggleMap;
     private final String gemTeamFilePath = getDataFolder() + "/gemstones.gzip";
     private GemData gData;
-
     /* Gemstone subcommands */
     private final ArrayList<String> COMMANDS = new ArrayList<>(Arrays.asList(
         "choose",
         "toggle",
         "show"
     ));
-
     /* Subcommands that need GemstoneType enums as suggestions */
     private final ArrayList<String> GTYPE_COMMANDS = new ArrayList<>(
         Arrays.asList("choose")
     );
-
     /* Gemstone admin subcommands */
     private final ArrayList<String> ADMIN_COMANDS = new ArrayList<>(
         Arrays.asList("globalToggle")
