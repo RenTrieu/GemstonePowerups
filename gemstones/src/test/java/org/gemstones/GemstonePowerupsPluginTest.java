@@ -31,20 +31,6 @@ public class GemstonePowerupsPluginTest {
     }
 
     @Test
-    public void playerGreetOnJoin() {
-        PlayerMock player = server.addPlayer();
-        player.reconnect();
-        String greeting = player.nextMessage();
-        Assertions.assertEquals(
-            greeting,
-            "Hello, "
-            + LegacyComponentSerializer.legacyAmpersand().serialize(
-                player.name())
-            + "!"
-        );
-    }
-
-    @Test
     public void playerGemstoneCommandNoArgs() {
         PlayerMock player = server.addPlayer();
         Assertions.assertFalse(player.performCommand("gemstone"));

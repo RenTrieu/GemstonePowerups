@@ -53,7 +53,7 @@ public class GemstoneTest {
         PlayerMock player = server.addPlayer();
         player.setLocation(blockLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         PotionEffect pEffect = new PotionEffect(
             PotionEffectType.GLOWING,
             200,
@@ -90,7 +90,7 @@ public class GemstoneTest {
         Location playerLoc = new Location(testWorld, 0.0, 5.0, 0.0);
         player.setLocation(playerLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         PotionEffect pEffect1 = new PotionEffect(
             PotionEffectType.DAMAGE_RESISTANCE, 200, 1
         );
@@ -132,7 +132,7 @@ public class GemstoneTest {
         Location playerLoc = new Location(testWorld, 0.0, 5.0, 0.0);
         player.setLocation(playerLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         PotionEffect pEffect1 = new PotionEffect(
             PotionEffectType.DAMAGE_RESISTANCE, 200, 2
         );
@@ -223,7 +223,7 @@ public class GemstoneTest {
         Location playerLoc = new Location(testWorld, 0.0, 5.0, 0.0);
         player.setLocation(playerLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         PotionEffect pEffect = new PotionEffect(
             PotionEffectType.GLOWING,
             200,
@@ -254,7 +254,7 @@ public class GemstoneTest {
         PlayerMock player = server.addPlayer();
         player.setLocation(blockLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         ArrayList<Location> locList = gTest.scanBlockProximity(
             player,
             new Material[]{Material.DIAMOND_BLOCK},
@@ -286,7 +286,7 @@ public class GemstoneTest {
         PlayerMock player = server.addPlayer();
         player.setLocation(playerLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         ArrayList<Location> locList = gTest.scanBlockProximity(
             player,
             new Material[]{Material.DIAMOND_BLOCK},
@@ -318,7 +318,7 @@ public class GemstoneTest {
         PlayerMock player = server.addPlayer();
         player.setLocation(playerLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         ArrayList<Location> locList = gTest.scanBlockProximity(
             player,
             new Material[]{Material.DIAMOND_BLOCK},
@@ -350,7 +350,7 @@ public class GemstoneTest {
         PlayerMock player = server.addPlayer();
         player.setLocation(playerLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         ArrayList<Location> locList = gTest.scanBlockProximity(
             player,
             new Material[]{Material.DIAMOND_BLOCK},
@@ -382,7 +382,7 @@ public class GemstoneTest {
         PlayerMock player = server.addPlayer();
         player.setLocation(playerLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         ArrayList<Location> locList = gTest.scanBlockProximity(
             player,
             new Material[]{Material.DIAMOND_BLOCK},
@@ -414,7 +414,7 @@ public class GemstoneTest {
         PlayerMock player = server.addPlayer();
         player.setLocation(playerLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         ArrayList<Location> locList = gTest.scanBlockProximity(
             player,
             new Material[]{Material.DIAMOND_BLOCK},
@@ -468,7 +468,7 @@ public class GemstoneTest {
         PlayerMock player = server.addPlayer();
         player.setLocation(playerLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         ArrayList<Location> locList = gTest.scanBlockProximity(
             player,
             new Material[]{Material.DIAMOND_BLOCK},
@@ -506,7 +506,7 @@ public class GemstoneTest {
         PlayerMock player = server.addPlayer();
         player.setLocation(playerLoc);
 
-        Gemstone gTest = new Gemstone(server);
+        Gemstone gTest = new Gemstone(plugin, server, null);
         ArrayList<Location> locList = gTest.scanBlockProximity(
             player,
             new Material[]{

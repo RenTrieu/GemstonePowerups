@@ -12,9 +12,7 @@ import java.util.Arrays;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.Command;
@@ -38,11 +36,11 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     private ArrayList<Gemstone> gemstoneList;
 
     /* Maps Player UUID to Gemstone team */
-    private HashMap<UUID, String> gemTeamMap;
+    private static HashMap<UUID, String> gemTeamMap;
     /* 
      * Tracks whether or not the Gemstone effects are enabled for a given player
      */
-    private HashMap<UUID, Boolean> gemToggleMap;
+    private static HashMap<UUID, Boolean> gemToggleMap;
     private final String gemTeamFilePath = getDataFolder() + "/gemstones.gzip";
     private GemData gData;
 
@@ -89,7 +87,11 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                         true
                     ).get(pEffectString);
                 for (Map<String, Object> param : paramList) {
-                    Gemstone gemstone = new Gemstone(Bukkit.getServer());
+                    Gemstone gemstone = new Gemstone(
+                        this,
+                        Bukkit.getServer(),
+                        GemstoneType.valueOf(gemstoneString.toUpperCase())
+                    );
                     /* Extracting parameters */
                     int radius = (int) param.get("radius");
                     int level = (int) param.get("level");
@@ -132,8 +134,8 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
             );
         }
         this.gData = gData;
-        this.gemTeamMap = this.gData.gemTeamMap;
-        this.gemToggleMap = this.gData.gemToggleMap;
+        GemstonePowerupsPlugin.gemTeamMap = this.gData.gemTeamMap;
+        GemstonePowerupsPlugin.gemToggleMap = this.gData.gemToggleMap;
     }
 
 
@@ -165,26 +167,19 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
         return completions;
     }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().sendMessage(
-            Component.text("Hello, " + event.getPlayer().getName() + "!")
-        );
-    }
-
     /*
      * Sets the given player's Gem toggle status
      */
     private void setGemToggle(Player player, Boolean toggle) {
         UUID pUUID = player.getUniqueId();
-        if (this.gemToggleMap.containsKey(pUUID)) {
-            this.gemToggleMap.remove(pUUID);
+        if (GemstonePowerupsPlugin.gemToggleMap.containsKey(pUUID)) {
+            GemstonePowerupsPlugin.gemToggleMap.remove(pUUID);
         }
-        this.gemToggleMap.put(pUUID, toggle);
+        GemstonePowerupsPlugin.gemToggleMap.put(pUUID, toggle);
         this.gData.saveData(
             gemTeamFilePath,
             gData.gemTeamMap,
-            this.gemToggleMap,
+            GemstonePowerupsPlugin.gemToggleMap,
             getLogger()
         );
     }
@@ -196,7 +191,7 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
         if (!gemToggleMap.containsKey(player.getUniqueId())) {
             return true;
         }
-        return this.gemToggleMap.get(player.getUniqueId());
+        return GemstonePowerupsPlugin.gemToggleMap.get(player.getUniqueId());
     }
 
     /*
@@ -204,13 +199,13 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
      */
     private void setGemTeam(Player player, GemstoneType gemType) {
         UUID pUUID = player.getUniqueId();
-        if (this.gemTeamMap.containsKey(pUUID)) {
-            this.gemTeamMap.remove(pUUID);
+        if (GemstonePowerupsPlugin.gemTeamMap.containsKey(pUUID)) {
+            GemstonePowerupsPlugin.gemTeamMap.remove(pUUID);
         }
-        this.gemTeamMap.put(pUUID, gemType.toString());
+        GemstonePowerupsPlugin.gemTeamMap.put(pUUID, gemType.toString());
         this.gData.saveData(
             gemTeamFilePath,
-            this.gemTeamMap,
+            GemstonePowerupsPlugin.gemTeamMap,
             gData.gemToggleMap, 
             getLogger()
         );
@@ -220,10 +215,14 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
      * Returns the given player's Gem Team
      */
     public GemstoneType getGemTeam(Player player) {
-        if (!gemTeamMap.containsKey(player.getUniqueId())) {
+        if (!GemstonePowerupsPlugin.gemTeamMap.containsKey(
+                player.getUniqueId())
+        ) {
             return null;
         }
-        return GemstoneType.valueOf(gemTeamMap.get(player.getUniqueId()));
+        return GemstoneType.valueOf(
+            GemstonePowerupsPlugin.gemTeamMap.get(player.getUniqueId())
+        );
     }
 
     public boolean onCommand(
@@ -239,9 +238,6 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                 if (args.length == 0) {
                     rc = false;
                 }
-                for (String arg: args) {
-                }
-
                 String subcommand = args[0];
                 switch (subcommand) {
                     case "choose": {
@@ -252,7 +248,8 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                             GemstoneType.class, args[1].toUpperCase()
                         )) {
                             setGemTeam(
-                                player, GemstoneType.valueOf(args[1].toUpperCase())
+                                player,
+                                GemstoneType.valueOf(args[1].toUpperCase())
                             );
                             player.sendMessage(
                                 ChatColor.GREEN

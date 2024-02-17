@@ -1,6 +1,5 @@
 package org.gemstones;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,8 +15,6 @@ import org.bukkit.Server;
 
 public class Gemstone extends BukkitRunnable {
 
-    /* Stores which Gemstone team each player is on */
-    private static HashMap<String, Player> gTeamMap;
     /* 
      * Stores vectors to blocks within a sphere of a given radius,
      * relative to the origin 
@@ -29,15 +26,21 @@ public class Gemstone extends BukkitRunnable {
         effectMap = new HashMap<>();
     private GemstoneType gType = null;
     public Server server;
+    public GemstonePowerupsPlugin plugin;
 
-    public Gemstone(Server server) {
+    public Gemstone(
+        GemstonePowerupsPlugin plugin,
+        Server server,
+        GemstoneType gType
+    ) {
+        this.plugin = plugin;
         this.server = server;
+        this.gType = gType;
     }
 
     public void run() {
         for (Player player : this.server.getOnlinePlayers()) {
-            if (gType == null) {
-                // TODO: Add check for if player is in the right gemstone category
+            if (gType == null || gType == plugin.getGemTeam(player)) {
                 applyEffects(player);
             }
         }
