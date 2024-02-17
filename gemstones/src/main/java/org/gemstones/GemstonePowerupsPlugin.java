@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -23,8 +24,12 @@ import org.bukkit.Registry;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.util.StringUtil;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.configuration.ConfigurationSection;
+
+import org.apache.commons.lang3.EnumUtils;
 
 public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
 
@@ -36,6 +41,17 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     private HashMap<UUID, String> gemTeamMap;
     private final String gemTeamFilePath = getDataFolder() + "/gemTeam.gzip";
     private GemTeamData gData;
+
+    /* Gemstone subcommands */
+    private final ArrayList<String> COMMANDS = new ArrayList<>(Arrays.asList(
+        "choose",
+        "toggle"
+    ));
+
+    /* Gemstone admin subcommands */
+    private final ArrayList<String> ADMIN_COMANDS = new ArrayList<>(
+        Arrays.asList("globalToggle")
+    );
 
     @Override
     public void onEnable() {
@@ -106,6 +122,20 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
         this.gemTeamMap = gData.gemTeamMap;
     }
 
+
+    @Override
+    public List<String> onTabComplete(
+        CommandSender sender,
+        Command command,
+        String alias,
+        String[] args) {
+        ArrayList<String> completions = new ArrayList<>();
+        for (String arg : args) {
+            StringUtil.copyPartialMatches(arg, this.COMMANDS, completions);
+        }
+        return completions;
+    }
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().sendMessage(
@@ -117,6 +147,24 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
         );
     }
 
+    /*
+     * Sets the given player's Gem Team
+     */
+    private void setGemTeam(Player player, GemstoneType gemType) {
+        UUID pUUID = player.getUniqueId();
+        if (gemTeamMap.containsKey(pUUID)) {
+            gemTeamMap.remove(pUUID);
+        }
+        gemTeamMap.put(pUUID, gemType.toString());
+    }
+
+    /*
+     * Gets the given player's Gem Team
+     */
+    public GemstoneType getGemTeam(Player player) {
+        return GemstoneType.valueOf(gemTeamMap.get(player.getUniqueId()));
+    }
+
     public boolean onCommand(
         CommandSender sender,
         Command command,
@@ -124,7 +172,26 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
         String[] args
     ) {
         if (command.getName().equalsIgnoreCase("gemstones")) {
-            sender.sendMessage(ChatColor.GREEN + "Command received!");
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (args.length == 0) {
+                    return false;
+                }
+                String subcommand = args[1];
+                switch (subcommand) {
+                    case "choose": if (args.length < 2) {
+                        return false;
+                    }
+                    else if (EnumUtils.isValidEnum(
+                        GemstoneType.class, args[2].toUpperCase()
+                    )) {
+                        setGemTeam(
+                            player, GemstoneType.valueOf(args[2].toUpperCase())
+                        );
+                    }
+                }
+                sender.sendMessage(ChatColor.GREEN + "Command received!");
+            }
         }
         return true;
     }

@@ -41,4 +41,25 @@ public class GemstonePowerupsPluginTest {
             + "!"
         );
     }
+
+    // @Test
+    // public void playerGemstoneCommandNoArgs() {
+    //     PlayerMock player = server.addPlayer();
+    //     player.performCommand("gemstone");
+    //     assertFalse(plugin.commandReturns);
+    // }
+
+    /*
+     * Tests the choose Gem Team subcommand and ensures that the player's
+     * Gem Team gets set as expected
+     */
+    @Test
+    public void playerSetGemTeamCommand() {
+        PlayerMock player = server.addPlayer();
+        String gemstoneTeam = "gold";
+        player.performCommand("gemstone choose " + gemstoneTeam);
+        Assertions.assertEquals(
+            plugin.getGemTeam(player).toString(), gemstoneTeam.toUpperCase()
+        );
+    }
 }
