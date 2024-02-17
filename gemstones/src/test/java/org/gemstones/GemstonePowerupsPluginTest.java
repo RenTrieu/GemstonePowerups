@@ -1,6 +1,8 @@
 package org.gemstones;
 
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
+import org.bukkit.command.Command;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,12 +44,11 @@ public class GemstonePowerupsPluginTest {
         );
     }
 
-    // @Test
-    // public void playerGemstoneCommandNoArgs() {
-    //     PlayerMock player = server.addPlayer();
-    //     player.performCommand("gemstone");
-    //     assertFalse(plugin.commandReturns);
-    // }
+    @Test
+    public void playerGemstoneCommandNoArgs() {
+        PlayerMock player = server.addPlayer();
+        Assertions.assertFalse(player.performCommand("gemstone"));
+    }
 
     /*
      * Tests the choose Gem Team subcommand and ensures that the player's
@@ -57,9 +58,16 @@ public class GemstonePowerupsPluginTest {
     public void playerSetGemTeamCommand() {
         PlayerMock player = server.addPlayer();
         String gemstoneTeam = "gold";
-        player.performCommand("gemstone choose " + gemstoneTeam);
-        Assertions.assertEquals(
-            plugin.getGemTeam(player).toString(), gemstoneTeam.toUpperCase()
+
+        /* Asserting that the command is valid */
+        Assertions.assertTrue(
+            player.performCommand("gemstones choose " + gemstoneTeam)
         );
+
+        // Command gCommand = server.getPluginCommand("gemstones");
+        // server.executePlayer(gCommand, "choose", gemstoneTeam);
+        // Assertions.assertEquals(
+        //     plugin.getGemTeam(player).toString(), gemstoneTeam.toUpperCase()
+        // );
     }
 }

@@ -15,27 +15,35 @@ import java.util.zip.GZIPOutputStream;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 
-public class GemTeamData implements Serializable {
+public class GemData implements Serializable {
 
     public HashMap<UUID, String> gemTeamMap;
+    public HashMap<UUID, Boolean> gemToggleMap;
 
-    public GemTeamData() {
+    public GemData() {
         this.gemTeamMap = new HashMap<UUID, String>();
+        this.gemToggleMap = new HashMap<UUID, Boolean>();
     }
 
-    public GemTeamData (HashMap<UUID, String> gemTeamMap) {
+    public GemData (
+        HashMap<UUID, String> gemTeamMap,
+        HashMap<UUID, Boolean> gemToggleMap
+    ) {
         this.gemTeamMap = gemTeamMap;
+        this.gemToggleMap = gemToggleMap;
     }
 
     /*
-     * Saves GemTeamData
+     * Saves GemData
      */
     public boolean saveData(
         String filePath,
         HashMap<UUID, String> gemTeamMap,
+        HashMap<UUID, Boolean> gemToggleMap,
         Logger logger
     ) {
         this.gemTeamMap.putAll(gemTeamMap);
+        this.gemToggleMap.putAll(gemToggleMap);
         try {
             BukkitObjectOutputStream out = new BukkitObjectOutputStream(
                 new GZIPOutputStream(new FileOutputStream(filePath))
@@ -45,16 +53,16 @@ public class GemTeamData implements Serializable {
             return true;
         } catch (IOException e) {
             logger.log(Level.SEVERE,
-                "Error occurred when attempting to save GemTeamData: " + e
+                "Error occurred when attempting to save GemData: " + e
             );
             return false;
         }
     }
 
     /*
-     * Loads GemTeamData
+     * Loads GemData
      */
-    public static GemTeamData loadData(
+    public static GemData loadData(
         String filePath,
         Logger logger
     ) {
@@ -62,14 +70,14 @@ public class GemTeamData implements Serializable {
             BukkitObjectInputStream in = new BukkitObjectInputStream(
                 new GZIPInputStream(new FileInputStream(filePath))
             );
-            GemTeamData gTeamData = (GemTeamData) in.readObject();
+            GemData gData = (GemData) in.readObject();
             in.close();
-            return gTeamData;
+            return gData;
         } catch (FileNotFoundException e) {
             return null;
         } catch (ClassNotFoundException | IOException e) {
             logger.log(Level.SEVERE,
-                "Error occurred when attempting to save GemTeamData: " + e
+                "Error occurred when attempting to save GemData: " + e
             );
             return null;
         }
