@@ -49,7 +49,8 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     /* Gemstone subcommands */
     private final ArrayList<String> COMMANDS = new ArrayList<>(Arrays.asList(
         "choose",
-        "toggle"
+        "toggle",
+        "show"
     ));
 
     /* Subcommands that need GemstoneType enums as suggestions */
@@ -192,6 +193,9 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
      * Returns the given player's Gem toggle status
      */
     public Boolean getGemToggle(Player player) {
+        if (!gemToggleMap.containsKey(player.getUniqueId())) {
+            return true;
+        }
         return this.gemToggleMap.get(player.getUniqueId());
     }
 
@@ -228,29 +232,82 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
         String label,
         String[] args
     ) {
+        Boolean rc = false;
         if (command.getName().equalsIgnoreCase("gemstones")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (args.length == 0) {
-                    return false;
+                    rc = false;
                 }
-                String subcommand = args[1];
+                for (String arg: args) {
+                }
+
+                String subcommand = args[0];
                 switch (subcommand) {
-                    case "choose": if (args.length < 2) {
-                        return false;
+                    case "choose": {
+                        if (args.length < 2) {
+                            rc = false;
+                        }
+                        else if (EnumUtils.isValidEnum(
+                            GemstoneType.class, args[1].toUpperCase()
+                        )) {
+                            setGemTeam(
+                                player, GemstoneType.valueOf(args[1].toUpperCase())
+                            );
+                            player.sendMessage(
+                                ChatColor.GREEN
+                                + "Gemstone set to: "
+                                + getGemTeam(player).toString()
+                            );
+                            rc = true;
+                        }
                     }
-                    else if (EnumUtils.isValidEnum(
-                        GemstoneType.class, args[2].toUpperCase()
-                    )) {
-                        setGemTeam(
-                            player, GemstoneType.valueOf(args[2].toUpperCase())
+                    break;
+                    case "show": {
+                        GemstoneType curGem = getGemTeam(player);
+                        String gemString = "None";
+                        if (curGem != null) {
+                            gemString = curGem.toString();
+                        }
+                        player.sendMessage(
+                            ChatColor.GOLD
+                            + "Current Gemstone: "
+                            + gemString
                         );
-                        return true;
+                        player.sendMessage(
+                            ChatColor.GOLD
+                            + "Gemstones Active: "
+                            + getGemToggle(player).toString()
+                        );
+                        rc = true;
                     }
-                    return false;
+                    break;
+                    case "toggle": {
+                        if (args.length < 2) {
+                            rc = false;
+                        }
+                        else {
+                            Boolean toggle;
+                            switch (args[1]) {
+                                case "on": toggle = true;
+                                break;
+                                case "off": toggle = false;
+                                break;
+                                default: toggle = true;
+                            }
+                            setGemToggle(player, toggle);
+                            player.sendMessage(
+                                ChatColor.GOLD
+                                + "Gemstones Status set to: "
+                                + toggle.toString()
+                            );
+                            rc = true;
+                        }
+                    }
+                    break;
                 }
             }
         }
-        return true;
+        return rc;
     }
 }
