@@ -126,7 +126,6 @@ public class Gemstone extends BukkitRunnable {
         /* Computing sphere vectors for the given radius */
         if (!sphereVectors.containsKey(radius)) {
             sphereVectors.put(radius, new ArrayList<Vector>());
-            ArrayList<Vector> sphereVecs = new ArrayList<>();
             Vector origin = new Vector(0.0, 0.0, 0.0);
             for (int x = 0; x < radius; x++) {
                 for (int y = 0; y < radius - x + 1; y++) {
@@ -138,27 +137,29 @@ public class Gemstone extends BukkitRunnable {
                         double distance = origin.distance(curVec);
                         if (distance < radius) {
                             sphereVectors.get(radius).add(curVec);
-                            sphereVectors.get(radius).add(
-                                new Vector(x, y, -z)
-                            );
-                            sphereVectors.get(radius).add(
-                                new Vector(x, -y, z)
-                            );
-                            sphereVectors.get(radius).add(
-                                new Vector(x, -y, -z)
-                            );
-                            sphereVectors.get(radius).add(
-                                new Vector(-x, y, z)
-                            );
-                            sphereVectors.get(radius).add(
-                                new Vector(-x, y, -z)
-                            );
-                            sphereVectors.get(radius).add(
-                                new Vector(-x, -y, z)
-                            );
-                            sphereVectors.get(radius).add(
-                                new Vector(-x, -y, -z)
-                            );
+                            if (!(x == 0 && y == 0 && z == 0)) {
+                                sphereVectors.get(radius).add(
+                                    new Vector(x, y, -z)
+                                );
+                                sphereVectors.get(radius).add(
+                                    new Vector(x, -y, z)
+                                );
+                                sphereVectors.get(radius).add(
+                                    new Vector(x, -y, -z)
+                                );
+                                sphereVectors.get(radius).add(
+                                    new Vector(-x, y, z)
+                                );
+                                sphereVectors.get(radius).add(
+                                    new Vector(-x, y, -z)
+                                );
+                                sphereVectors.get(radius).add(
+                                    new Vector(-x, -y, z)
+                                );
+                                sphereVectors.get(radius).add(
+                                    new Vector(-x, -y, -z)
+                                );
+                            }
                         }
                     }
                 }
@@ -184,5 +185,4 @@ public class Gemstone extends BukkitRunnable {
         }
         return nearBlocks;
     }
-
 }
