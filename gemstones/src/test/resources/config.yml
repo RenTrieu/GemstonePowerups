@@ -1,4 +1,28 @@
 gemstones:
+  prismarine:
+    potion_effects:
+      WATER_BREATHING:
+        - radius: 30
+          level: 0
+          blocks:
+            - PRISMARINE
+            - PRISMARINE_BRICKS
+            - DARK_PRISMARINE
+            - PRISMARINE_STAIRS
+            - PRISMARINE_BRICK_STAIRS
+            - DARK_PRISMARINE_STAIRS
+  diamond:
+    potion_effects:
+      RESISTANCE:
+        - radius: 30
+          level: 0
+          blocks:
+            - DIAMOND_BLOCK
+        - radius: 5
+          level: 0
+          blocks:
+            - DIAMOND_ORE
+            - DEEPSLATE_DIAMOND_ORE
   gold:
     potion_effects:
       FIRE_RESISTANCE:
@@ -12,6 +36,7 @@ gemstones:
           blocks:
             - GILDED_BLACKSTONE
             - GOLD_ORE
+            - DEEPSLATE_GOLD_ORE
       LUCK:
         - radius: 15
           level: 0
@@ -23,10 +48,152 @@ gemstones:
           blocks:
             - GILDED_BLACKSTONE
             - GOLD_ORE
-  diamond:
+            - DEEPSLATE_GOLD_ORE
+  emerald:
     potion_effects:
-      RESISTANCE:
-        - radius: 30
+      HERO_OF_THE_VILLAGE:
+        - radius: 10
           level: 0
           blocks:
-            - DIAMOND_BLOCK
+            - EMERALD_BLOCK
+        - radius: 20
+          level: 0
+          blocks:
+            - EMERALD_ORE
+            - DEEPSLATE_EMERALD_ORE
+  amethyst:
+    potion_effects:
+      SLOW_FALLING:
+        - radius: 10
+          level: 0
+          blocks:
+            - AMETHYST_BLOCK
+            - BUDDING_AMETHYST 
+        - radius: 5
+          level: 0
+          blocks:
+            - SMALL_AMETHYST_BUD
+            - MEDIUM_AMETHYST_BUD
+            - LARGE_AMETHYST_BUD
+  redstone:
+    potion_effects:
+      HASTE:
+        - radius: 10
+          level: 0
+          blocks:
+            - REDSTONE_BLOCK
+            - REDSTONE_ORE
+            - DEEPSLATE_REDSTONE_ORE
+        - radius: 3
+          level: 0
+          blocks:
+            - REDSTONE
+            - REDSTONE_WIRE
+            - REDSTONE_WALL_TORCH
+            - REDSTONE_LAMP
+  copper:
+    potion_effects:
+      SPEED:
+        - radius: 5
+          level: 0
+          blocks:
+            - RAW_COPPER_BLOCK
+            - COPPER_BLOCK
+            - COPPER_BULB
+            - COPPER_DOOR
+            - COPPER_GRATE
+            - COPPER_TRAPDOOR
+            - EXPOSED_CHISELED_COPPER
+            - EXPOSED_COPPER
+            - EXPOSED_COPPER_BULB
+            - EXPOSED_COPPER_DOOR
+            - EXPOSED_COPPER_GRATE
+            - EXPOSED_COPPER_TRAPDOOR
+            - EXPOSED_CUT_COPPER
+            - EXPOSED_CUT_COPPER_SLAB
+            - EXPOSED_CUT_COPPER_STAIRS
+            - WEATHERED_CHISELED_COPPER
+            - WEATHERED_COPPER
+            - WEATHERED_COPPER_BULB
+            - WEATHERED_COPPER_DOOR
+            - WEATHERED_COPPER_GRATE
+            - WEATHERED_COPPER_TRAPDOOR
+            - WEATHERED_CUT_COPPER
+            - WEATHERED_CUT_COPPER_SLAB
+            - WEATHERED_CUT_COPPER_STAIRS
+            - WAXED_CHISELED_COPPER
+            - WAXED_COPPER_BLOCK
+            - WAXED_COPPER_BULB
+            - WAXED_COPPER_DOOR
+            - WAXED_COPPER_GRATE
+            - WAXED_COPPER_TRAPDOOR
+            - WAXED_CUT_COPPER
+            - WAXED_CUT_COPPER_SLAB
+            - WAXED_CUT_COPPER_STAIRS
+            - WAXED_EXPOSED_CHISELED_COPPER
+            - WAXED_EXPOSED_COPPER
+            - WAXED_EXPOSED_COPPER_BULB
+            - WAXED_EXPOSED_COPPER_DOOR
+            - WAXED_EXPOSED_COPPER_GRATE
+            - WAXED_EXPOSED_COPPER_TRAPDOOR
+            - WAXED_EXPOSED_CUT_COPPER
+            - WAXED_EXPOSED_CUT_COPPER_SLAB
+            - WAXED_EXPOSED_CUT_COPPER_STAIRS
+            - WAXED_WEATHERED_CHISELED_COPPER
+            - WAXED_WEATHERED_COPPER
+            - WAXED_WEATHERED_COPPER_BULB
+            - WAXED_WEATHERED_COPPER_DOOR
+            - WAXED_WEATHERED_COPPER_GRATE
+            - WAXED_WEATHERED_COPPER_TRAPDOOR
+            - WAXED_WEATHERED_CUT_COPPER
+            - WAXED_WEATHERED_CUT_COPPER_SLAB
+            - WAXED_WEATHERED_CUT_COPPER_STAIRS
+        - radius: 10
+          level: 0
+          blocks: 
+            - OXIDIZED_CHISELED_COPPER
+            - OXIDIZED_COPPER
+            - OXIDIZED_COPPER_BULB
+            - OXIDIZED_COPPER_DOOR
+            - OXIDIZED_COPPER_GRATE
+            - OXIDIZED_COPPER_TRAPDOOR
+            - OXIDIZED_CUT_COPPER
+            - OXIDIZED_CUT_COPPER_SLAB
+            - OXIDIZED_CUT_COPPER_STAIRS
+            - WAXED_OXIDIZED_CHISELED_COPPER
+            - WAXED_OXIDIZED_COPPER
+            - WAXED_OXIDIZED_COPPER_BULB
+            - WAXED_OXIDIZED_COPPER_DOOR
+            - WAXED_OXIDIZED_COPPER_GRATE
+            - WAXED_OXIDIZED_COPPER_TRAPDOOR
+            - WAXED_OXIDIZED_CUT_COPPER
+            - WAXED_OXIDIZED_CUT_COPPER_SLAB
+            - WAXED_OXIDIZED_CUT_COPPER_STAIRS
+        - radius: 3
+          level: 0
+          blocks:
+            - COPPER_ORE
+            - DEEPSLATE_COPPER_ORE
+  lapis:
+    potion_effects:
+      ABSORPTION:
+        - radius: 10
+          level: 0
+          blocks:
+            - LAPIS_BLOCK
+        - radius: 5
+          level: 0
+          blocks:
+            - LAPIS_ORE
+            - DEEPSLATE_LAPIS_ORE
+  sculk:
+    potion_effects:
+      NIGHT_VISION:
+        - radius: 5
+          level: 0
+          blocks:
+            - SCULK
+            - SCULK_CATALYST
+            - SCULK_SENSOR
+            - SCULK_SHRIEKER
+            - SCULK_VEIN
