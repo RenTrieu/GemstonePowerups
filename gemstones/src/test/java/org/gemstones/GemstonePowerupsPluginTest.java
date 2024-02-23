@@ -68,4 +68,41 @@ public class GemstonePowerupsPluginTest {
     //         plugin.getGemToggle(player)
     //     );
     // }
+
+    // @Test
+    // public void playerNonOPGlobalEnable() {
+    //     PlayerMock player = server.addPlayer();
+    //     Assertions.assertFalse(player.isOp());
+    //     Assertions.assertFalse(
+    //         player.performCommand("gemstones enable")
+    //     );
+    // }
+    //
+    // @Test
+    // public void playerNonOPGlobalDisable() {
+    //     PlayerMock player = server.addPlayer();
+    //     Assertions.assertFalse(player.isOp());
+    //     Assertions.assertFalse(
+    //         player.performCommand("gemstones disable")
+    //     );
+    // }
+    //
+    // @Test
+    // public void playerOPGlobalEnable() {
+    //     PlayerMock player = server.addPlayer();
+    //     player.setOp(true);
+    //     Assertions.assertTrue(
+    //         player.performCommand("gemstones enable")
+    //     );
+    // }
+    //
+    // @Test
+    // public void playerOPGlobalDisable() {
+    //     PlayerMock player = server.addPlayer();
+    //     player.setOp(true);
+    //     Assertions.assertTrue(
+    //         player.performCommand("gemstones disable")
+    //     );
+    // }
+
 }

@@ -52,8 +52,14 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     );
     /* Gemstone admin subcommands */
     private final ArrayList<String> ADMIN_COMANDS = new ArrayList<>(
-        Arrays.asList("globalToggle")
+        Arrays.asList("enable", "disable")
     );
+    /* Potion effects only run when this is true */
+    private boolean potionsEnabled = true;
+
+    public boolean isPotionsEnabled() {
+        return this.potionsEnabled;
+    }
 
     @Override
     public void onEnable() {
@@ -155,9 +161,14 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
             for (String arg : args) {
                 StringUtil.copyPartialMatches(arg, this.COMMANDS, completions);
             }
+            if (sender.hasPermission("gemstones.admin")) {
+                for (String arg : args) {
+                    StringUtil.copyPartialMatches(
+                        arg, this.ADMIN_COMANDS, completions
+                    );
+                }
+            }
         }
-        // TODO: Add check to see if sender has admin permissions node
-        // In which case, also add admin commands to tabcomplete suggestions
         return completions;
     }
 
@@ -230,7 +241,10 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (args.length == 0) {
-                    rc = false;
+                    return false;
+                }
+                if (!player.hasPermission("gemstones.user")) {
+                    return false;
                 }
                 String subcommand = args[0];
                 switch (subcommand) {
@@ -293,6 +307,26 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                                 + toggle.toString()
                             );
                             rc = true;
+                        }
+                    }
+                    break;
+                    case "enable": {
+                        if (player.hasPermission("gemstones.admin")) {
+                            this.potionsEnabled = true;
+                            rc = true;
+                        }
+                        else {
+                            rc = false;
+                        }
+                    }
+                    break;
+                    case "disable": {
+                        if (player.hasPermission("gemstones.admin")) {
+                            this.potionsEnabled = false;
+                            rc = true;
+                        }
+                        else {
+                            rc = false;
                         }
                     }
                     break;

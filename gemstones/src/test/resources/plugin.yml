@@ -10,15 +10,13 @@ commands:
     usage: "/gemstones <action> <arg>"
     permission: gemstones.user
     permission-message: "You do not have permission to use this command"
-# permissions:
-#   gemstones.user:
-#     description: "This is the permission node for general users."
-#     default: not op
-#     children:
-#       gemstones.user.toggle: true
-#       gemstones.user.potioneffect: true
-#   gemstones.admin:
-#     description: "This is the permission node for admins."
-#     default: op
-#     children:
-#       gemstones.admin: true
+permissions:
+  gemstones.user:
+    description: "This is the permission node for general users."
+    default: not op
+    children:
+      gemstones.user.toggle: true
+      gemstones.user.potioneffect: true
+  gemstones.admin:
+    description: "This is the permission node for admins."
+    default: op

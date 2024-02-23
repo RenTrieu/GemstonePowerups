@@ -7,18 +7,17 @@ api-version: '1.20'
 commands:
   gemstones:
     description: "This command toggles on or off the GemstonesPowerups plugin for a given user"
-    usage: "/gemstones <action> <arg>"
+    usage: "Usage: /gemstones <subcommand> <arg>"
     permission: gemstones.user
     permission-message: "You do not have permission to use this command"
-# permissions:
-#   gemstones.user:
-#     description: "This is the permission node for general users."
-#     default: not op
-#     children:
-#       gemstones.user.toggle: true
-#       gemstones.user.potioneffect: true
-#   gemstones.admin:
-#     description: "This is the permission node for admins."
-#     default: op
-#     children:
-#       gemstones.admin: true
+default-permission: true
+permissions:
+  gemstones.user:
+    description: "This is the permission node for general users."
+    default: true
+    children:
+      gemstones.user.toggle: true
+      gemstones.user.potioneffect: true
+  gemstones.admin:
+    description: "This is the permission node for admins."
+    default: op

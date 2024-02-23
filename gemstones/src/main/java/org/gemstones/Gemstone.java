@@ -39,6 +39,9 @@ public class Gemstone extends BukkitRunnable {
     }
 
     public void run() {
+        if (!plugin.isPotionsEnabled()) {
+            return;
+        }
         for (Player player : this.server.getOnlinePlayers()) {
             if (gType == null || gType == plugin.getGemTeam(player)) {
                 if (plugin.getGemToggle(player)) {
