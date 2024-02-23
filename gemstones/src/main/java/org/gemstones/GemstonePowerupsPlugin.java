@@ -57,10 +57,6 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     /* Potion effects only run when this is true */
     private boolean potionsEnabled = true;
 
-    public boolean isPotionsEnabled() {
-        return this.potionsEnabled;
-    }
-
     @Override
     public void onEnable() {
         Bukkit.getPluginManager().registerEvents(this, this);
@@ -170,6 +166,13 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
             }
         }
         return completions;
+    }
+
+    /*
+     * Accessor method for potionsEnabled
+     */
+    public boolean isPotionsEnabled() {
+        return this.potionsEnabled;
     }
 
     /*

@@ -103,7 +103,8 @@ public class Gemstone extends BukkitRunnable {
                 ).size() > 0;
             }
             if (detectedBlock) {
-                // TODO: Add check to see if player already has potion effect of same or higher level applied
+                // TODO: Add check to see if player already has potion effect
+                // of same or higher level applied
                 // If so, don't apply again
                 pEffect.apply(player);
             }
@@ -127,15 +128,37 @@ public class Gemstone extends BukkitRunnable {
             sphereVectors.put(radius, new ArrayList<Vector>());
             ArrayList<Vector> sphereVecs = new ArrayList<>();
             Vector origin = new Vector(0.0, 0.0, 0.0);
-            for (int x = -radius; x < radius; x++) {
-                for (int y = -radius; y < radius; y++) {
-                    for (int z = -radius; z < radius; z++) {
-                        Vector curVec = new Vector(
-                            (double) x, (double) y, (double) z
-                        );
+            for (int x = 0; x < radius; x++) {
+                for (int y = 0; y < radius - x + 1; y++) {
+                    for (int z = 0;
+                         z < radius - Math.ceil(Math.sqrt(x*x + y*y)) + 1;
+                         z++
+                        ) {
+                        Vector curVec = new Vector(x, y, z);
                         double distance = origin.distance(curVec);
                         if (distance < radius) {
                             sphereVectors.get(radius).add(curVec);
+                            sphereVectors.get(radius).add(
+                                new Vector(x, y, -z)
+                            );
+                            sphereVectors.get(radius).add(
+                                new Vector(x, -y, z)
+                            );
+                            sphereVectors.get(radius).add(
+                                new Vector(x, -y, -z)
+                            );
+                            sphereVectors.get(radius).add(
+                                new Vector(-x, y, z)
+                            );
+                            sphereVectors.get(radius).add(
+                                new Vector(-x, y, -z)
+                            );
+                            sphereVectors.get(radius).add(
+                                new Vector(-x, -y, z)
+                            );
+                            sphereVectors.get(radius).add(
+                                new Vector(-x, -y, -z)
+                            );
                         }
                     }
                 }
