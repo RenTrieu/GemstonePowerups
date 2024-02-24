@@ -52,6 +52,13 @@ public class Gemstone extends BukkitRunnable {
     }
 
     /*
+     * Getter method for Gemstone Type
+     */
+    public GemstoneType getGemstoneType() {
+        return this.gType;
+    }
+
+    /*
      * Adds a Gemstone effect that will apply in the given radius when
      * the player is in proximity to the given materials
      *
@@ -108,6 +115,17 @@ public class Gemstone extends BukkitRunnable {
                 // If so, don't apply again
                 pEffect.apply(player);
             }
+        }
+    }
+
+    /*
+     * Removes the applicable potion effects from the player
+     */
+    public void removeEffects(
+        Player player
+    ) {
+        for (PotionEffect pEffect : effectMap.keySet()) {
+            player.removePotionEffect(pEffect.getType());
         }
     }
 

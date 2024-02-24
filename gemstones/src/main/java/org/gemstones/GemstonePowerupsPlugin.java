@@ -18,6 +18,7 @@ import org.bukkit.command.Command;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
+import org.bukkit.Server;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.StringUtil;
@@ -83,11 +84,33 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                         true
                     ).get(pEffectString);
                 for (Map<String, Object> param : paramList) {
-                    Gemstone gemstone = new Gemstone(
-                        this,
-                        Bukkit.getServer(),
-                        GemstoneType.valueOf(gemstoneString.toUpperCase())
-                    );
+                    Gemstone gemstone;
+                    /* Use the Gemstone subclass if it exists */
+                    try {
+                        gemstone = (Gemstone) Class.forName(
+                            "org.gemstones."
+                            + gemstoneString.substring(0,1).toUpperCase()
+                            + gemstoneString.substring(1,gemstoneString.length())
+                        ).getConstructor(
+                            new Class[]{
+                                GemstonePowerupsPlugin.class,
+                                Server.class,
+                                GemstoneType.class
+                            }
+                        ).newInstance(
+                            this,
+                            Bukkit.getServer(),
+                            GemstoneType.valueOf(gemstoneString.toUpperCase())
+                        );
+                    }
+                    /* Otherwise instantiate with Generic Gemstone */
+                    catch (Exception e) {
+                        gemstone = new Gemstone(
+                            this,
+                            Bukkit.getServer(),
+                            GemstoneType.valueOf(gemstoneString.toUpperCase())
+                        );
+                    }
                     /* Extracting parameters */
                     int radius = (int) param.get("radius");
                     int level = (int) param.get("level");
