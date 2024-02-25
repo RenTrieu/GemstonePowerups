@@ -121,7 +121,7 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                     );
                     Registry<PotionEffectType> reg = Bukkit.getRegistry(PotionEffectType.class);
                     PotionEffect pEffect = new PotionEffect(
-                        reg.get(pNamespacedKey), 200, level
+                        reg.get(pNamespacedKey), 300, level
                     );
 
                     Material[] matArray = new Material[matList.size()];

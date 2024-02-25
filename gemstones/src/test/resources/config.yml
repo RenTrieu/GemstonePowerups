@@ -189,7 +189,7 @@ gemstones:
   sculk:
     potion_effects:
       NIGHT_VISION:
-        - radius: 5
+        - radius: 15
           level: 0
           blocks:
             - SCULK

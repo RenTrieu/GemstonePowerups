@@ -2,8 +2,11 @@ package org.gemstones;
 
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-public class Amethyst extends Gemstone {
+public class Amethyst extends Gemstone implements Listener {
 
     public Amethyst(
         GemstonePowerupsPlugin plugin,
@@ -11,6 +14,7 @@ public class Amethyst extends Gemstone {
         GemstoneType gType
     ) {
         super(plugin, server, gType);
+        server.getPluginManager().registerEvents(this, plugin);
     }
 
     public void run() {
@@ -24,11 +28,15 @@ public class Amethyst extends Gemstone {
                     && !player.isSneaking()) {
                     applyEffects(player);
                 }
-                if (player.isSneaking()) {
-                    removeEffects(player);
-                }
             }
         }
     }
 
+    @EventHandler
+    public void onPlayerToggleSneak(PlayerToggleSneakEvent event) {
+        Player player = event.getPlayer();
+        if (player.isSneaking()) {
+            removeEffects(player);
+        }
+    }
 }
