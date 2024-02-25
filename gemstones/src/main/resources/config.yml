@@ -75,6 +75,7 @@ gemstones:
             - SMALL_AMETHYST_BUD
             - MEDIUM_AMETHYST_BUD
             - LARGE_AMETHYST_BUD
+            - AMETHYST_CLUSTER
   redstone:
     potion_effects:
       HASTE:
