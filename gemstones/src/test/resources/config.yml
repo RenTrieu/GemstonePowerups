@@ -4,6 +4,7 @@ gemstones:
       WATER_BREATHING:
         - radius: 30
           level: 0
+          duration: 200
           blocks:
             - PRISMARINE
             - PRISMARINE_BRICKS
@@ -16,10 +17,12 @@ gemstones:
       RESISTANCE:
         - radius: 30
           level: 0
+          duration: 200
           blocks:
             - DIAMOND_BLOCK
         - radius: 5
           level: 0
+          duration: 200
           blocks:
             - DIAMOND_ORE
             - DEEPSLATE_DIAMOND_ORE
@@ -28,11 +31,13 @@ gemstones:
       FIRE_RESISTANCE:
         - radius: 30
           level: 0
+          duration: 200
           blocks:
             - GOLD_BLOCK
             - RAW_GOLD_BLOCK
         - radius: 5
           level: 0
+          duration: 200
           blocks:
             - GILDED_BLACKSTONE
             - GOLD_ORE
@@ -40,11 +45,13 @@ gemstones:
       LUCK:
         - radius: 15
           level: 0
+          duration: 200
           blocks:
             - GOLD_BLOCK
             - RAW_GOLD_BLOCK
         - radius: 5
           level: 0
+          duration: 200
           blocks:
             - GILDED_BLACKSTONE
             - GOLD_ORE
@@ -54,10 +61,12 @@ gemstones:
       HERO_OF_THE_VILLAGE:
         - radius: 10
           level: 0
+          duration: 200
           blocks:
             - EMERALD_BLOCK
         - radius: 20
           level: 0
+          duration: 200
           blocks:
             - EMERALD_ORE
             - DEEPSLATE_EMERALD_ORE
@@ -66,26 +75,31 @@ gemstones:
       SLOW_FALLING:
         - radius: 10
           level: 0
+          duration: 200
           blocks:
             - AMETHYST_BLOCK
             - BUDDING_AMETHYST 
         - radius: 5
           level: 0
+          duration: 200
           blocks:
             - SMALL_AMETHYST_BUD
             - MEDIUM_AMETHYST_BUD
             - LARGE_AMETHYST_BUD
+            - AMETHYST_CLUSTER
   redstone:
     potion_effects:
       HASTE:
         - radius: 10
           level: 0
+          duration: 200
           blocks:
             - REDSTONE_BLOCK
             - REDSTONE_ORE
             - DEEPSLATE_REDSTONE_ORE
         - radius: 3
           level: 0
+          duration: 200
           blocks:
             - REDSTONE
             - REDSTONE_WIRE
@@ -96,6 +110,7 @@ gemstones:
       SPEED:
         - radius: 5
           level: 0
+          duration: 200
           blocks:
             - RAW_COPPER_BLOCK
             - COPPER_BLOCK
@@ -150,6 +165,7 @@ gemstones:
             - WAXED_WEATHERED_CUT_COPPER_STAIRS
         - radius: 10
           level: 0
+          duration: 200
           blocks: 
             - OXIDIZED_CHISELED_COPPER
             - OXIDIZED_COPPER
@@ -171,6 +187,7 @@ gemstones:
             - WAXED_OXIDIZED_CUT_COPPER_STAIRS
         - radius: 3
           level: 0
+          duration: 200
           blocks:
             - COPPER_ORE
             - DEEPSLATE_COPPER_ORE
@@ -179,10 +196,12 @@ gemstones:
       ABSORPTION:
         - radius: 10
           level: 0
+          duration: 200
           blocks:
             - LAPIS_BLOCK
         - radius: 5
           level: 0
+          duration: 200
           blocks:
             - LAPIS_ORE
             - DEEPSLATE_LAPIS_ORE
@@ -191,6 +210,7 @@ gemstones:
       NIGHT_VISION:
         - radius: 15
           level: 0
+          duration: 600
           blocks:
             - SCULK
             - SCULK_CATALYST

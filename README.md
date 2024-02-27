@@ -12,7 +12,6 @@ For example, when a player chooses the "Diamond" Gemstone class, they will
 receive Resistance I when in proximity of diamond blocks or diamond ore.
 
 ## User Commands
-----------------
 - ``/gemstones choose <Gemstone>``
   - Selects a Gemstone class for the player
 - ``/gemstones toggle <on/off>``
@@ -22,17 +21,14 @@ receive Resistance I when in proximity of diamond blocks or diamond ore.
     status of the potion effects
 
 ## Admin Commands
------------------
 - ``/gemstones enable``
   - Enable all potion effects globally
 - ``/gemstones disable``
   - Disable all potion effects globally
 
 ## Admin Guide
---------------
 
 ### Permission Nodes
---------------------
 - ``gemstones.user``: General user permission. If a player has this, then they
   can receive potion effects, choose their Gemstone class, and toggle potion
   effects on and off
@@ -45,7 +41,6 @@ receive Resistance I when in proximity of diamond blocks or diamond ore.
   - ``/gemstones disable``
 
 ### Config
-----------
 Here is an excerpt of the default config:
 ```
 gemstones:
@@ -54,6 +49,7 @@ gemstones:
       WATER_BREATHING:
         - radius: 30
           level: 0
+          duration: 200
           blocks:
             - PRISMARINE
             - PRISMARINE_BRICKS
@@ -66,21 +62,30 @@ gemstones:
       RESISTANCE:
         - radius: 30
           level: 0
+          duration: 200
           blocks:
             - DIAMOND_BLOCK
         - radius: 5
           level: 0
+          duration: 200
           blocks:
             - DIAMOND_ORE
             - DEEPSLATE_DIAMOND_ORE
 ```
 The potion effects of each Gemstone class can be specified under 
-``potion_effects``. Multiple potion effects can be listed. Furthermore,
-the config provides the option to specify the radius of effect and potion
-level. Each radius/potion level has a list of blocks. The blocks in the list
-will apply the potion effect at their corresponding level and within their
-corresponding radii.
+``potion_effects``. Multiple potion effects can be listed. 
+Under each potion effect type is a list of options:
 
+```
+| Configuration Option | Description |
+| ------ | ------------ |
+| radius | The distance from the block for which the potion effect will be applied |
+| level | The level of potion effect that will be applied (0 is the base effect) |
+| duration | How long the potion effect will last (in ticks) |
+| blocks | A list of blocks for which the above options will apply to |
+```
+
+Each set of configuration options will apply to their following list of blocks.
 This allows the administrator to have a more granulated control over how far
 each type of block affects the player. For the Diamond example, a player will
 only need to be within 30 blocks of a Diamond Block to receive Resistance I.

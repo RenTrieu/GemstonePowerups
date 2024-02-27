@@ -114,6 +114,13 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                     /* Extracting parameters */
                     int radius = (int) param.get("radius");
                     int level = (int) param.get("level");
+                    int duration;
+                    if (param.containsKey("duration")) {
+                        duration = (int) param.get("duration");
+                    }
+                    else {
+                        duration = 200;
+                    }
                     List<String> matList = (List<String>) param.get("blocks");
 
                     NamespacedKey pNamespacedKey = new NamespacedKey(
@@ -121,7 +128,7 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                     );
                     Registry<PotionEffectType> reg = Bukkit.getRegistry(PotionEffectType.class);
                     PotionEffect pEffect = new PotionEffect(
-                        reg.get(pNamespacedKey), 300, level
+                        reg.get(pNamespacedKey), duration, level
                     );
 
                     Material[] matArray = new Material[matList.size()];
