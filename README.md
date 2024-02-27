@@ -76,14 +76,12 @@ The potion effects of each Gemstone class can be specified under
 ``potion_effects``. Multiple potion effects can be listed. 
 Under each potion effect type is a list of options:
 
-```
 | Configuration Option | Description |
 | ------ | ------------ |
 | radius | The distance from the block for which the potion effect will be applied |
 | level | The level of potion effect that will be applied (0 is the base effect) |
 | duration | How long the potion effect will last (in ticks) |
 | blocks | A list of blocks for which the above options will apply to |
-```
 
 Each set of configuration options will apply to their following list of blocks.
 This allows the administrator to have a more granulated control over how far
