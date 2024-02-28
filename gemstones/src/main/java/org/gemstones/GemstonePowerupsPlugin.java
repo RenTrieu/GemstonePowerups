@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ChatColor;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -57,6 +58,13 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     );
     /* Potion effects only run when this is true */
     private boolean potionsEnabled = true;
+
+    /* Tracks Gemstone choose cooldown */
+    public static HashMap<UUID, Long> gemCooldownMap;
+    /* Cooldown in seconds */
+    private long cooldown = 300;
+    /* Cooldown Manager */
+    private CooldownManager cManager;
 
     @Override
     public void onEnable() {
@@ -156,12 +164,16 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                 gemTeamFilePath,
                 gData.gemTeamMap,
                 gData.gemToggleMap,
+                gData.gemCooldownMap,
                 getLogger() 
             );
         }
         this.gData = gData;
         GemstonePowerupsPlugin.gemTeamMap = this.gData.gemTeamMap;
         GemstonePowerupsPlugin.gemToggleMap = this.gData.gemToggleMap;
+        GemstonePowerupsPlugin.gemCooldownMap = this.gData.gemCooldownMap;
+
+        this.cManager = new CooldownManager(this.cooldown);
     }
 
 
@@ -218,6 +230,7 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
             gemTeamFilePath,
             gData.gemTeamMap,
             GemstonePowerupsPlugin.gemToggleMap,
+            GemstonePowerupsPlugin.gemCooldownMap,
             getLogger()
         );
     }
@@ -245,6 +258,7 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
             gemTeamFilePath,
             GemstonePowerupsPlugin.gemTeamMap,
             gData.gemToggleMap, 
+            GemstonePowerupsPlugin.gemCooldownMap,
             getLogger()
         );
     }
@@ -285,6 +299,20 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                         if (args.length < 2) {
                             rc = false;
                         }
+                        else if (
+                           !cManager.getCooldownElapsed(player)
+                        ) {
+                            long secondsLeft = cooldown 
+                                - TimeUnit.MILLISECONDS.toSeconds(
+                                    cManager.getTimeElapsed(player)
+                            );
+                            player.sendMessage(
+                                ChatColor.RED
+                                + "Choosing Gemstone on cooldown. "
+                                + secondsLeft + " remaining."
+                            );
+                            rc = true;
+                        }
                         else if (EnumUtils.isValidEnum(
                             GemstoneType.class, args[1].toUpperCase()
                         )) {
@@ -296,6 +324,14 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                                 ChatColor.GREEN
                                 + "Gemstone set to: "
                                 + getGemTeam(player).toString()
+                            );
+                            cManager.startCooldown(player);
+                            gData.saveData(
+                                gemTeamFilePath,
+                                gData.gemTeamMap,
+                                gData.gemToggleMap,
+                                gData.gemCooldownMap,
+                                getLogger()
                             );
                             rc = true;
                         }

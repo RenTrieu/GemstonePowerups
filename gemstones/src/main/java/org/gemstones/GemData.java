@@ -19,18 +19,22 @@ public class GemData implements Serializable {
 
     public HashMap<UUID, String> gemTeamMap;
     public HashMap<UUID, Boolean> gemToggleMap;
+    public HashMap<UUID, Long> gemCooldownMap;
 
     public GemData() {
         this.gemTeamMap = new HashMap<UUID, String>();
         this.gemToggleMap = new HashMap<UUID, Boolean>();
+        this.gemCooldownMap = new HashMap<UUID, Long>();
     }
 
     public GemData (
         HashMap<UUID, String> gemTeamMap,
-        HashMap<UUID, Boolean> gemToggleMap
+        HashMap<UUID, Boolean> gemToggleMap,
+        HashMap<UUID, Long> gemCooldownMap
     ) {
         this.gemTeamMap = gemTeamMap;
         this.gemToggleMap = gemToggleMap;
+        this.gemCooldownMap = new HashMap<UUID, Long>();
     }
 
     /*
@@ -40,10 +44,12 @@ public class GemData implements Serializable {
         String filePath,
         HashMap<UUID, String> gemTeamMap,
         HashMap<UUID, Boolean> gemToggleMap,
+        HashMap<UUID, Long> gemCooldownMap,
         Logger logger
     ) {
         this.gemTeamMap.putAll(gemTeamMap);
         this.gemToggleMap.putAll(gemToggleMap);
+        this.gemCooldownMap.putAll(gemCooldownMap);
         try {
             BukkitObjectOutputStream out = new BukkitObjectOutputStream(
                 new GZIPOutputStream(new FileOutputStream(filePath))
