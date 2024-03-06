@@ -301,6 +301,8 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                         }
                         else if (
                            !cManager.getCooldownElapsed(player)
+                           && (!player.hasPermission("gemstones.admin")
+                           || player.hasPermission("gemstones.cooldown.bypass"))
                         ) {
                             long secondsLeft = cooldown 
                                 - TimeUnit.MILLISECONDS.toSeconds(
