@@ -8,3 +8,6 @@ build
 .settings
 gemstones/.settings
 gemstones/.classpath
+
+# Ignoring gemTeam.yml
+gemTeam.yml
