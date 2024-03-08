@@ -42,6 +42,7 @@ gemstones:
             - GILDED_BLACKSTONE
             - GOLD_ORE
             - DEEPSLATE_GOLD_ORE
+            - NETHER_GOLD_ORE
       LUCK:
         - radius: 15
           level: 0
@@ -56,6 +57,7 @@ gemstones:
             - GILDED_BLACKSTONE
             - GOLD_ORE
             - DEEPSLATE_GOLD_ORE
+            - NETHER_GOLD_ORE
   emerald:
     potion_effects:
       HERO_OF_THE_VILLAGE:
