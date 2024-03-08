@@ -146,11 +146,22 @@ public class Gemstone extends BukkitRunnable {
             sphereVectors.put(radius, new ArrayList<Vector>());
             Vector origin = new Vector(0.0, 0.0, 0.0);
             for (int x = 0; x < radius; x++) {
-                for (int y = 0; y < radius - x + 1; y++) {
+                double scaledXSquared = ((double) x) / radius;
+                scaledXSquared = scaledXSquared * scaledXSquared;
+                for (int y = 0;
+                     y < Math.ceil(
+                             radius * Math.sqrt(1-scaledXSquared)
+                         ) + 1;
+                     y++
+                ) {
+                    double scaledYSquared = ((double) y) / radius;
+                    scaledYSquared = scaledYSquared * scaledYSquared;
                     for (int z = 0;
-                         z < radius - Math.ceil(Math.sqrt(x*x + y*y)) + 1;
+                         z < Math.ceil(radius * Math.sqrt(
+                                 1-scaledYSquared-scaledXSquared)
+                             ) + 1;
                          z++
-                        ) {
+                    ) {
                         Vector curVec = new Vector(x, y, z);
                         double distance = origin.distance(curVec);
                         if (distance < radius) {
