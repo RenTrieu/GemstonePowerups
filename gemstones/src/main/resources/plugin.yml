@@ -18,6 +18,10 @@ permissions:
     children:
       gemstones.user.toggle: true
       gemstones.user.potioneffect: true
+      gemstones.cooldown.bypass: false
   gemstones.admin:
     description: "This is the permission node for admins."
     default: op
+    children:
+      gemstones.admin.resetCooldown: true
+      gemstones.admin.globalToggle: true
