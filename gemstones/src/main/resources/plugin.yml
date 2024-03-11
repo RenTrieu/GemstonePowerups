@@ -1,5 +1,5 @@
 name: GemstonePowerups
-version: 1.0.0
+version: 1.0.1
 main: org.gemstones.GemstonePowerupsPlugin
 description: A Minecraft plugin for giving players buffs/effects when in proximity to specific gemstone blocks.
 author: RenTrieu
