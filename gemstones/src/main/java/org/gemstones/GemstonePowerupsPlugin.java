@@ -54,7 +54,7 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
     );
     /* Gemstone admin subcommands */
     private final ArrayList<String> ADMIN_COMANDS = new ArrayList<>(
-        Arrays.asList("enable", "disable")
+        Arrays.asList("enable", "disable", "resetCooldown")
     );
     /* Potion effects only run when this is true */
     private boolean potionsEnabled = true;
@@ -134,7 +134,9 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                     NamespacedKey pNamespacedKey = new NamespacedKey(
                         NamespacedKey.MINECRAFT, pEffectString.toLowerCase()
                     );
-                    Registry<PotionEffectType> reg = Bukkit.getRegistry(PotionEffectType.class);
+                    Registry<PotionEffectType> reg = Bukkit.getRegistry(
+                        PotionEffectType.class
+                    );
                     PotionEffect pEffect = new PotionEffect(
                         reg.get(pNamespacedKey), duration, level
                     );
@@ -382,7 +384,8 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                     }
                     break;
                     case "enable": {
-                        if (player.hasPermission("gemstones.admin")) {
+                        if (player.hasPermission("gemstones.admin")
+                            || player.hasPermission("gemstones.admin.globalToggle")) {
                             this.potionsEnabled = true;
                             rc = true;
                         }
@@ -392,7 +395,8 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                     }
                     break;
                     case "disable": {
-                        if (player.hasPermission("gemstones.admin")) {
+                        if (player.hasPermission("gemstones.admin")
+                            || player.hasPermission("gemstones.admin.globalToggle")) {
                             this.potionsEnabled = false;
                             rc = true;
                         }
@@ -401,6 +405,35 @@ public class GemstonePowerupsPlugin extends JavaPlugin implements Listener {
                         }
                     }
                     break;
+                    case "resetCooldown": {
+                        if (player.hasPermission("gemstones.admin")
+                            || player.hasPermission("gemstones.admin.resetToggle")) {
+                            if (args.length < 2) {
+                                rc = false;
+                            }
+                            else {
+                                Player tPlayer = getServer().getPlayer(
+                                    args[1]
+                                );
+                                GemstonePowerupsPlugin.gemCooldownMap.remove(
+                                    tPlayer.getUniqueId()
+                                );
+                                gData.saveData(
+                                    gemTeamFilePath,
+                                    gData.gemTeamMap,
+                                    gData.gemToggleMap,
+                                    GemstonePowerupsPlugin.gemCooldownMap,
+                                    getLogger() 
+                                );
+                                player.sendMessage(
+                                    ChatColor.GREEN
+                                    + "Reset cooldown for player: "
+                                    + tPlayer.getName()
+                                );
+                                rc = true;
+                            }
+                        }
+                    }
                 }
             }
         }

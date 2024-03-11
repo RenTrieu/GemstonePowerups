@@ -22,3 +22,6 @@ permissions:
   gemstones.admin:
     description: "This is the permission node for admins."
     default: op
+    children:
+      gemstones.admin.resetCooldown: true
+      gemstones.admin.globalToggle: true
